@@ -56,6 +56,7 @@ class Utils:
         fig.axes.get_xaxis().set_visible(False)
         fig.axes.get_yaxis().set_visible(False)
         plt.savefig(filename)
+        plt.close()
 
     @staticmethod
     def gumbel_softmax(logit, temperature):
@@ -102,7 +103,7 @@ class Utils:
                     valid_loss += loss.item() / len(valid_loader)
 
             torch.save(model.state_dict(),
-                       os.path.join(self.cfg.CHECKPONT_PATH, f'checkpoint({epoch}).pt'))
+                       os.path.join(self.cfg.CHECKPOINT_PATH, f'checkpoint({epoch}).pt'))
             print(
                 f'{epoch:2d}: '
                 f'train_loss: {train_loss:.2f}, '
