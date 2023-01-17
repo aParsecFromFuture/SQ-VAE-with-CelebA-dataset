@@ -9,17 +9,17 @@ from models import SQVAE
 def arg_parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-dbg', '--debug', default=50, help='print loss per n batch')
-    parser.add_argument(
-        '-dev', '--device', default='cpu', help="device: cpu/cuda/mps")
+        '-cbg', '--config_file', default='', help='config file path')
     args = parser.parse_args()
     return args
 
 
 def load_config(args):
     cfg = get_cfg_defaults()
-    cfg.PRINT_PER_BATCH = args.debug
-    cfg.DEVICE = args.device
+
+    if args.config_file != '':
+        cfg = cfg.merge_from_file(args.config_file)
+
     return cfg
 
 
