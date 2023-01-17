@@ -28,6 +28,7 @@ _C.QUANTIZER.TEMPERATURE.MIN = 0.0
 _C.DEVICE = 'cpu'
 _C.CHECKPOINT_PATH = 'checkpoints/'
 _C.SAMPLE_PATH = 'samples/'
+_C.PRINT_PER_BATCH = 50
 
 
 def get_cfg_defaults():

@@ -92,7 +92,8 @@ class Utils:
                 loss.backward()
                 optimizer.step()
 
-                if step % 50 == 0:
+                if step % self.cfg.PRINT_PER_BATCH == 0:
+                    print(f'{step}/{len(train_loader)}: {loss.item():.2f}')
                     self.save_images(make_grid(torch.cat([x[:32], xhat[:32]])),
                                      os.path.join(self.cfg.SAMPLE_PATH, f'sample({step}).png'))
 
