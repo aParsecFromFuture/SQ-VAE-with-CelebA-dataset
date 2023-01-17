@@ -58,9 +58,8 @@ class Utils:
         plt.savefig(filename)
         plt.close()
 
-    @staticmethod
-    def gumbel_softmax(logit, temperature):
-        u = torch.rand(logit.shape)
+    def gumbel_softmax(self, logit, temperature):
+        u = torch.rand(logit.shape, device=self.cfg.DEVICE)
         g = -torch.log(-torch.log(u))
         y = logit + g
 
@@ -80,11 +79,14 @@ class Utils:
         return torch.sum((x1 - x2).pow(2) * weight, dim=(1, 2, 3))
 
     def train(self, model, train_loader, valid_loader, optimizer):
+        model = model.to(self.cfg.DEVICE)
+
         for epoch in range(1, self.cfg.TRAIN.NUM_EPOCHS + 1):
             train_loss, valid_loss = 0.0, 0.0
 
             model.train()
             for step, (x, _) in enumerate(train_loader):
+                x = x.to(self.cfg.DEVICE)
                 model.quantizer.temperature = self.calc_temperature(epoch, step, len(train_loader))
                 xhat, loss = model(x)
                 train_loss += loss.item() / len(train_loader)
@@ -94,7 +96,7 @@ class Utils:
 
                 if step % self.cfg.PRINT_PER_BATCH == 0:
                     print(f'{step}/{len(train_loader)}: {loss.item():.2f}')
-                    self.save_images(make_grid(torch.cat([x[:32], xhat[:32]])),
+                    self.save_images(make_grid(torch.cat([x.cpu()[:32], xhat.cpu()[:32]])),
                                      os.path.join(self.cfg.SAMPLE_PATH, f'sample({step}).png'))
 
             model.eval()
