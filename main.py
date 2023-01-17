@@ -2,7 +2,7 @@ import argparse
 from torch import optim
 
 from config import get_cfg_defaults
-from utils import get_util_defaults
+from utils import load_utils
 from models import SQVAE
 
 
@@ -26,7 +26,7 @@ def load_config(args):
 if __name__ == '__main__':
     args = arg_parse()
     cfg = load_config(args)
-    util = get_util_defaults(cfg)
+    util = load_utils(cfg)
 
     train_loader, valid_loader, test_loader = util.get_loader()
 

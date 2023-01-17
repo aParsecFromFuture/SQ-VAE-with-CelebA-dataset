@@ -114,5 +114,5 @@ class Utils:
                 f'temperature: {model.quantizer.temperature:.2f}')
 
 
-def get_util_defaults(cfg):
+def load_utils(cfg):
     return Utils(cfg)
