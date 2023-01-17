@@ -8,10 +8,10 @@ class Encoder(nn.Module):
     def __init__(self, in_channels):
         super().__init__()
         self.model = nn.Sequential(
-            MixerBlock(in_channels, 32),
-            DoubleConv2d(32, 32, 2),
-            MixerBlock(32, 32),
-            DoubleConv2d(32, 64, 2))
+            DoubleConv2d(in_channels, 32, 3, 1, 1),
+            DoubleConv2d(32, 32, 4, 2, 1),
+            DoubleConv2d(32, 64, 3, 1, 1),
+            DoubleConv2d(64, 64, 4, 2, 1))
 
     def forward(self, x):
         return self.model(x)
@@ -21,9 +21,9 @@ class Decoder(nn.Module):
     def __init__(self, out_channels):
         super().__init__()
         self.model = nn.Sequential(
-            ReverseDoubleConv2d(64, 32, 2),
-            MixerBlock(32, 32),
-            ReverseDoubleConv2d(32, 32, 2),
+            ReverseDoubleConv2d(64, 64),
+            DoubleConv2d(64, 32, 3, 1, 1),
+            ReverseDoubleConv2d(32, 32),
             nn.Conv2d(32, out_channels, 3, 1, 1),
             nn.Sigmoid())
 
