@@ -9,7 +9,7 @@ from models import SQVAE
 def arg_parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-cbg', '--config_file', default='', help='config file path')
+        '-cfg', '--config_file', default='', help='config file path')
     args = parser.parse_args()
     return args
 

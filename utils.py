@@ -8,8 +8,6 @@ from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
 
-from config import get_cfg_defaults
-
 from torchvision.utils import make_grid
 
 
