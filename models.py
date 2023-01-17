@@ -11,8 +11,7 @@ class Encoder(nn.Module):
             MixerBlock(in_channels, 32),
             DoubleConv2d(32, 32, 2),
             MixerBlock(32, 32),
-            DoubleConv2d(32, 64, 2),
-            nn.Conv2d(64, 64, 1, 1))
+            DoubleConv2d(32, 64, 2))
 
     def forward(self, x):
         return self.model(x)
@@ -25,7 +24,7 @@ class Decoder(nn.Module):
             ReverseDoubleConv2d(64, 32, 2),
             MixerBlock(32, 32),
             ReverseDoubleConv2d(32, 32, 2),
-            nn.Conv2d(32, out_channels, 1, 1),
+            nn.Conv2d(32, out_channels, 3, 1, 1),
             nn.Sigmoid())
 
     def forward(self, x):

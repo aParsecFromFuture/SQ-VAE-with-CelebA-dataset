@@ -25,8 +25,8 @@ class Utils:
     def get_loader(self):
         data_aug = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize(64),
-            transforms.CenterCrop(64),
+            transforms.Resize(self.cfg.TRAIN.IMG_DIM),
+            transforms.CenterCrop(self.cfg.TRAIN.IMG_DIM),
             transforms.RandomHorizontalFlip(0.5)])
 
         train_set = ImageFolder(self.cfg.DATASET.TRAIN_PATH, transform=data_aug)
@@ -100,6 +100,7 @@ class Utils:
             model.eval()
             with torch.no_grad():
                 for step, (x, _) in enumerate(valid_loader):
+                    x = x.to(self.cfg.DEVICE)
                     xhat, loss = model(x)
                     valid_loss += loss.item() / len(valid_loader)
 
