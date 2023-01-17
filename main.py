@@ -18,7 +18,7 @@ def load_config(args):
     cfg = get_cfg_defaults()
 
     if args.config_file != '':
-        cfg = cfg.merge_from_file(args.config_file)
+        cfg.merge_from_file(args.config_file)
 
     return cfg
 
