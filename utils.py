@@ -93,7 +93,9 @@ class Utils:
                 optimizer.step()
 
                 if step % self.cfg.PRINT_PER_BATCH == 0:
-                    print(f'{step}/{len(train_loader)}: {loss.item():.2f}')
+                    mse = F.mse_loss(xhat, x, reduction='sum') / xhat.shape[0]
+
+                    print(f'{step}/{len(train_loader)} Loss: {loss.item():.2f}, MSE: {mse.item():.2f}')
                     self.save_images(make_grid(torch.cat([x.cpu()[:32], xhat.cpu()[:32]])),
                                      os.path.join(self.cfg.SAMPLE_PATH, f'sample({step}).png'))
 
