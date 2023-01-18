@@ -88,9 +88,6 @@ class Utils:
                 model.quantizer.temperature = self.calc_temperature(epoch, step, len(train_loader))
                 xhat, loss = model(x)
                 train_loss += loss.item() / len(train_loader)
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
 
                 if step % self.cfg.PRINT_PER_BATCH == 0:
                     mse = F.mse_loss(xhat, x, reduction='sum') / xhat.shape[0]
@@ -98,6 +95,10 @@ class Utils:
                     print(f'{step}/{len(train_loader)} Loss: {loss.item():.2f}, MSE: {mse.item():.2f}')
                     self.save_images(make_grid(torch.cat([x.cpu()[:32], xhat.cpu()[:32]])),
                                      os.path.join(self.cfg.SAMPLE_PATH, f'sample({step}).png'))
+
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
 
             model.eval()
             with torch.no_grad():
